@@ -10,18 +10,18 @@
     <p> La suma de 3 + 3 es {{ 3 + 3 }}</p>
     <p> Hola soy {{ name() }} y tengo {{ age }} años</p>
     <hr/>
-    <p>person: {{person.name}}</p>
-    <p>person: {{person.age}}</p>
-    <img [src]="person.avatar" alt="avatar.png">
+    <p>person: {{person().name}}</p>
+    <p>person: {{person().age}}</p>
+    <img [src]="person().avatar" alt="avatar.png">
     <hr/>
     <button (click)="clickHandler()">Click Me</button>
     <button (dblclick)="clickHandler()">Doble Click Me</button>
     <p>(change)</p>
-    <input type="number" [value]="person.age" (change)="changeHandler($event)">
+    <input type="number" [value]="person().age" (change)="changeHandler($event)">
     <p>(keydown)</p>
-    <input type="text" [value]="person.name" (keydown)="keydownHandler($event)">
+    <input type="text" [value]="person().name" (keydown)="keydownHandler($event)">
     <p>(keydown enter)</p>
-    <input type="text" [value]="person.name" (keydown.enter)="clickHandler()">
+    <input type="text" [value]="person().name" (keydown.enter)="clickHandler()">
     <hr/>
     <h1>Signlas</h1>
     <input type="text" [value]="name()" (keydown.enter)="changeHandler($event)">
@@ -33,4 +33,19 @@
         {{ i }} {{ task }}
       </li>
     </ul>
+    <hr/>
+    <h1>ngIf</h1>
+    <div *ngIf="1 !== 1">
+      My content
+    </div>
+    <div *ngIf="name() === 'Juan Pablo'">
+      {{name()}}
+    </div>
+    <input type="text" [value]="person().age" (keydown.enter)="changeAge($event)">
+    <div *ngIf="person().name === 'Juan Pablo' && person().age > 18; else elseBlock">
+       Soy {{person().name}} y tengo {{person().age}} años
+    </div>
+    <ng-template #elseBlock>
+      Soy Juan Pablo y soy menor
+    </ng-template>
 </div>

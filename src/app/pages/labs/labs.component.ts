@@ -17,11 +17,11 @@ export class LabsComponent {
   age = 20;
   disabled = true;
   img = 'https://angular.io/assets/images/logos/angular/angular.png';
-  person = {
+  person = signal({
     name: 'Juan Pablo',
-    age: 20,
+    age: 17,
     avatar: 'https://w3schools.com/w3images/avatar2.png'
-  }
+  });
 
   clickHandler() {
     alert('Hola')
@@ -38,5 +38,12 @@ export class LabsComponent {
     const input = event.target as HTMLInputElement;
     console.log(event);
     console.log(input.value);
+  }
+
+  changeAge(event: Event) {
+    console.log(event);
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.person.update((person) => {return {...person, age: parseInt(newValue)}});
   }
 }
