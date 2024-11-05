@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-labs',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './labs.component.html',
   styleUrl: './labs.component.css'
 })
@@ -22,6 +23,14 @@ export class LabsComponent {
     age: 17,
     avatar: 'https://w3schools.com/w3images/avatar2.png'
   });
+
+  colorCtrl = new FormControl('');
+
+  constructor() {
+    this.colorCtrl.valueChanges.subscribe(value => {
+      console.log(value);
+    })
+  }
 
   clickHandler() {
     alert('Hola')
@@ -45,5 +54,12 @@ export class LabsComponent {
     const input = event.target as HTMLInputElement;
     const newValue = input.value;
     this.person.update((person) => {return {...person, age: parseInt(newValue)}});
+  }
+
+  changeName(event: Event) {
+    console.log(event);
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.person.update((person) => {return {...person, name: newValue}});
   }
 }
