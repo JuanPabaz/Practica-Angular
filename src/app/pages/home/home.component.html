@@ -22,24 +22,27 @@
        </pre>
       <section class="main">
         <ul class="todo-list">
-          <li *ngFor="let task of tasks(); index as i">
+          <li 
+          (dblclick)="editTask(i)"
+          [class.editing]="task.editing" 
+          *ngFor="let task of tasks(); index as i" 
+          [class.completed]="task.completed">
             <div class="view">
               <input class="toggle" type="checkbox" [checked]="task.completed" (click)="completeTask(i)"/>
               <label>{{ task.title }}</label>
               <button class="destroy" (click)="deleteTask(i)"></button>
             </div>
-            <input class="edit" value="Buy a unicorn" />
+            <input class="edit" (keydown.enter)="updateTaskName(i, $event)" [value]="task.title"/>
           </li>
           <!--
-          <li class="completed" *ngFor="let task in tasks">
+          <li class="completed" *ngFor="let task of tasks(); index as i">
             <div class="view">
               <input class="toggle" type="checkbox" checked />
-              <label>Learn JavaScript</label>
               <button class="destroy"></button>
             </div>
             <input class="edit" value="Learn JavaScript" />
           </li>
-            <li class="editing">
+          <li class="editing">
               <div class="view">
                 <input class="toggle" type="checkbox" />
                 <label>Make dishes</label>
@@ -61,13 +64,13 @@
         <!-- Remove this if you don't implement routing -->
         <ul class="filters">
           <li>
-            <a routerLink="/" class="selected">All</a>
+            <a (click)="changeFilter('all')" class="selected">All</a>
           </li>
           <li>
-            <a routerLink="/pending">Pending</a>
+            <a (click)="changeFilter('Pending')">Pending</a>
           </li>
           <li>
-            <a routerLink="/completed">Completed</a>
+            <a (click)="changeFilter('Completed')">Completed</a>
           </li>
         </ul>
         <!-- Hidden if no completed items are left ↓ -->
