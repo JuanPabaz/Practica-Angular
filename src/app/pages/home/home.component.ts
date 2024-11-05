@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Task } from './../../Models/Task.models';
 import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
@@ -18,8 +18,18 @@ newTaskCtrl = new FormControl('', {
   ]
 });
 
-filter = signal('all');
-
+filter = signal<'All' | 'Pending' | 'Completed'>('All');
+taskByFilter = computed(() => {
+  const filter = this.filter();
+  const tasks = this.tasks();
+  if (filter === 'Pending'){
+    return tasks.filter(task => !task.completed);
+  }
+  if (filter === 'Completed'){
+    return tasks.filter(task => task.completed);
+  }
+  return tasks;
+})
   tasks = signal<Task[]>([
     {
       id: Date.now(),
@@ -98,7 +108,7 @@ filter = signal('all');
       })
     }
     
-    changeFilter(filter: string){
+    changeFilter(filter: 'All' | 'Pending' | 'Completed'){
       this.filter.set(filter);
     }
 }
