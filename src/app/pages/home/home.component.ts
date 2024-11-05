@@ -18,6 +18,8 @@ newTaskCtrl = new FormControl('', {
   ]
 });
 
+filter = signal('all');
+
   tasks = signal<Task[]>([
     {
       id: Date.now(),
@@ -65,5 +67,38 @@ newTaskCtrl = new FormControl('', {
           return tasks;
         })
       });
+    }
+
+    editTask(index: number){
+      this.tasks.update(prevState => {
+        return prevState.map((task, position) =>{
+          if (position === index){
+            return {...task, editing: true};
+          }
+          return {
+            ...task,
+            editing: false
+          } ;
+        })
+      })
+    }
+
+    updateTaskName(index: number, event: Event){
+      const input = event.target as HTMLInputElement;
+      this.tasks.update(prevState => {
+        return prevState.map((task, position) =>{
+          if (position === index){
+            return {...task, 
+              title: input.value,
+              editing: false
+            };
+          }
+          return task;
+        })
+      })
+    }
+    
+    changeFilter(filter: string){
+      this.filter.set(filter);
     }
 }
