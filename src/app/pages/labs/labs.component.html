@@ -38,9 +38,9 @@
     <div *ngIf="1 !== 1">
       My content
     </div>
-    <div *ngIf="name() === 'Juan Pablo'">
-      {{name()}}
-    </div>
+    @if (name() === 'Juan Pablo'){
+      <div>Soy Juan Pablo</div>
+    }
     <input type="text" [value]="person().age" (keydown.enter)="changeAge($event)">
     <div *ngIf="person().name === 'Juan Pablo' && person().age > 18; else elseBlock">
        Soy {{person().name}} y tengo {{person().age}} años
@@ -48,6 +48,12 @@
     <ng-template #elseBlock>
       Soy Juan Pablo y soy menor
     </ng-template>
+    <h2>If else new syntax</h2>
+    @if (person().name === 'Juan Pablo' && person().age > 18){
+      <div>Soy Juan Pablo y soy mayor de 18</div>
+    }@else {
+      <div>Soy Juan Pablo y soy menor</div>
+    }
     <hr>
     <input type="text" [value]="person().name" (keydown.enter)="changeName($event)">
     <div [ngSwitch]="person().name">
@@ -77,4 +83,34 @@
     <p>
       <input type="text">
     </p>
+    <hr>
+    <h2>New For syntax</h2>
+    <ul>
+      @for (task of tasks(); track task; let i = $index) {
+        <li>
+          {{ i }} {{ task }}
+        </li>
+      } @empty {
+        <li>No hay tareas</li>
+      }
+    </ul>
+    <hr>
+    <h2>new switch</h2>
+    <div>
+      @switch (person().name) {
+        @case ('Juan Pablo') {
+          <p>yo soy Juan Pablo</p>    
+        }
+        @case ('Julian') {
+          <p>Yo soy Julian</p>
+        }
+        @case ('Ana') {
+          <p>Yo soy Ana</p>
+        }
+        @default {
+          <p>No soy nadie</p>
+        }
+      }
+
+    </div>
 </div>
